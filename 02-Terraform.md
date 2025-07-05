@@ -27,7 +27,7 @@ terraform -v
 
 ### On Windows
 
-1. Download the Terraform zip file from [Terraform Downloads]([https://www.terraform.io/downloads.html](https://developer.hashicorp.com/terraform/install)).
+1. Download the Terraform zip file from [Terraform Downloads](https://developer.hashicorp.com/terraform/install).
 2. Unzip the file and move `terraform.exe` to a folder included in your system's PATH.
 3. Open Command Prompt and run:
     ```sh
