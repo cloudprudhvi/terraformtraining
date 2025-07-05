@@ -161,6 +161,69 @@ When using Terraform to create resources in AWS, authentication and authorizatio
 
 ---
 
+## 7. Planning and Applying Your Infrastructure
+
+Now that you have configured AWS authentication, you are ready to create your EC2 instance.
+
+### Step 1: Run `terraform plan`
+
+The `terraform plan` command lets you preview the changes Terraform will make to your infrastructure. It compares your current configuration with the real resources in your AWS account and shows you what actions will be taken—such as what will be created, changed, or destroyed—without actually making any changes.
+
+**Example Output:**
+
+```
+Terraform will perform the following actions:
+
+  # aws_instance.example will be created
+  + resource "aws_instance" "example" {
+      + ami           = "ami-xxxxxxxxxxxxx"
+      + instance_type = "t2.micro"
+      + id            = (known after apply)
+      ...
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+```
+
+- **1 to add:** Terraform will create one new resource (the EC2 instance).
+- **0 to change:** No existing resources will be modified.
+- **0 to destroy:** No resources will be deleted.
+
+---
+
+### Step 2: Run `terraform apply`
+
+The `terraform apply` command actually makes the changes to your AWS account. It will prompt you for confirmation before proceeding, and then it will create, update, or delete resources as described in the plan.
+
+- Terraform communicates with AWS using the provider plugin and creates the EC2 instance as described in your configuration.
+- After completion, Terraform will show you the resources it created and their details.
+
+---
+
+### Step 3: Run `terraform destroy`
+
+The `terraform destroy` command is used when you want to remove all the resources that Terraform has created. This is useful for cleaning up your environment or when you no longer need the infrastructure.
+
+- When you run `terraform destroy`, Terraform will show you a plan of what resources will be deleted and ask for your confirmation before proceeding.
+- After you confirm, Terraform will delete all the resources it manages, such as your EC2 instance, and update its state file accordingly.
+
+**Example Output:**
+
+```
+Terraform will perform the following actions:
+
+  # aws_instance.example will be destroyed
+  - resource "aws_instance" "example" {
+      ...
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+```
+
+- **1 to destroy:** Terraform will delete one resource (the EC2 instance).
+- **0 to add/change:** No resources will be created or modified.
+
+---
 ## Terraform Lifecycle Flow Chart
 
 ```mermaid
