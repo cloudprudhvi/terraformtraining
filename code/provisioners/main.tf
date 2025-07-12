@@ -22,3 +22,15 @@ resource "aws_instance" "example" {
       host        = self.public_ip
     }
   }
+ provisioner "file" {
+    source      = "sample.txt"
+    destination = "/tmp/sample.txt"
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("./junebatch.pem")
+      host        = self.public_ip
+    }
+  }
+}
