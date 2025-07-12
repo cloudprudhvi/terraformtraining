@@ -1,6 +1,9 @@
 resource "aws_instance" "example" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = "ami-0bbe33b61c1e14975"
   instance_type = "t2.micro"
+  subnet_id = data.aws_subnet.selected.id
+  vpc_security_group_ids = [data.aws_security_group.selected.id]
+  key_name = "junebatchwest"
 
   provisioner "local-exec" {
     command = "echo Instance ${self.id} has been created!"
@@ -8,27 +11,14 @@ resource "aws_instance" "example" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get install nginx -y"
+      "sudo yum update -y",
+      "sudo yum install httpd -y"
     ]
 
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("~/.ssh/id_rsa")
+      private_key = file("${path.module}/junebatch.pem")
       host        = self.public_ip
     }
   }
-
-  provisioner "file" {
-    source      = "script.sh"
-    destination = "/tmp/script.sh"
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("~/.ssh/id_rsa")
-      host        = self.public_ip
-    }
-  }
-}
